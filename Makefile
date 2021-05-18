@@ -19,7 +19,7 @@
 OPTIMIZE =
 
 # The C compiler and its options.
-CC = gcc
+CC = gcc-10
 CFLAGS = $(OPTIMIZE) -g3 -Wall -Wextra -fanalyzer \
   -march=native -mtune=native -mrdrnd
 

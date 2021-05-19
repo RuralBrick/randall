@@ -27,6 +27,8 @@ CFLAGS = $(OPTIMIZE) -g3 -Wall -Wextra -fanalyzer \
 TAR = tar
 TARFLAGS = --gzip --transform 's,^,randall/,'
 TAREXT = tgz
+
+# The shell script to test randall.
 TESTER = test-randall.sh
 
 default: randall

@@ -3,6 +3,6 @@
 
 #include <stdbool.h>
 
-bool parseNBytes(long long *nbytes, int argc, char **argv);
+bool parseOptions(int argc, char **argv, long long *nbytes, char **input, char **output);
 
 #endif

@@ -13,3 +13,7 @@ software_rand64_fini to rand64_sw files.
 Extracted code to parse nbytes into parseNBytes in options files.
 Fixed use of headers in modules.
 Got randall to recompile properlly.
+
+5-19-21
+Converted nbytes parser to options parser.
+Used getopt to additionally parse -i and -o options.

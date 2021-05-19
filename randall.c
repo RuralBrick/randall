@@ -35,7 +35,9 @@ int
 main (int argc, char **argv)
 {
   long long nbytes;
-  bool valid = parseNBytes(&nbytes, argc, argv);
+  char *input;
+  char *output;
+  bool valid = parseOptions(argc, argv, &nbytes, &input, &output);
   if (!valid)
     {
       fprintf (stderr, "%s: usage: %s NBYTES\n", argv[0], argv[0]);

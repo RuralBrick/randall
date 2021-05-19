@@ -26,27 +26,16 @@
 #include "output.h"
 #include "rand64-hw.h"
 #include "rand64-sw.h"
-#include <errno.h>
-#include <stdlib.h>
+#include <stdbool.h>
 #include <stdio.h>
+#include <errno.h>
 
 /* Main program, which outputs N bytes of random data.  */
 int
 main (int argc, char **argv)
 {
-  /* Check arguments.  */
-  bool valid = false;
   long long nbytes;
-  if (argc == 2)
-    {
-      char *endptr;
-      errno = 0;
-      nbytes = strtoll (argv[1], &endptr, 10);
-      if (errno)
-	perror (argv[1]);
-      else
-	valid = !*endptr && 0 <= nbytes;
-    }
+  bool valid = parseNBytes(&nbytes, argc, argv);
   if (!valid)
     {
       fprintf (stderr, "%s: usage: %s NBYTES\n", argv[0], argv[0]);

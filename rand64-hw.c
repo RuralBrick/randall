@@ -1,4 +1,5 @@
 #include "rand64-hw.h"
+#include <cpuid.h>
 #include <immintrin.h>
 
 struct cpuid

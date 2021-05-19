@@ -1,5 +1,8 @@
 #include "rand64-sw.h"
 #include <stdio.h>
+#include <stdlib.h>
+
+FILE *urandstream;
 
 void
 software_rand64_init (void)

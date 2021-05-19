@@ -27,11 +27,15 @@ CFLAGS = $(OPTIMIZE) -g3 -Wall -Wextra -fanalyzer \
 TAR = tar
 TARFLAGS = --gzip --transform 's,^,randall/,'
 TAREXT = tgz
+TESTER = test-randall.sh
 
 default: randall
 
 randall: randall.c
 	$(CC) $(CFLAGS) $@.c -o $@
+
+check: randall $(TESTER)
+	./$(TESTER)
 
 assignment: randall-assignment.$(TAREXT)
 assignment-files = COPYING Makefile randall.c

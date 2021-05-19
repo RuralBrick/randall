@@ -3,3 +3,4 @@ Configured Makefile for WSL (switched compiler to gcc-10).
 
 5-18-21
 Created randall tester, copied code from hints.
+Added check target to Makefile (recompiles randall and runs tester).

@@ -34,7 +34,7 @@ default: randall
 randall: randall.c
 	$(CC) $(CFLAGS) $@.c -o $@
 
-check: randall $(TESTER)
+check: clean randall $(TESTER)
 	./$(TESTER)
 
 assignment: randall-assignment.$(TAREXT)

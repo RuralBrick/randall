@@ -4,3 +4,9 @@ Configured Makefile for WSL (switched compiler to gcc-10).
 5-18-21
 Created randall tester, copied code from hints.
 Added check target to Makefile (recompiles randall and runs tester).
+Created module files.
+Moved writebytes to output files.
+Moved cpuid, rdrand_supported, hardware_rand64_init, hardware_rand64,
+and hardware_rand64_fini to rand64-hw files.
+Moved urandstream, software_rand64_init, software_rand64, and
+software_rand64_fini to rand64_sw files.

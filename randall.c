@@ -30,6 +30,9 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <unistd.h>
 
 /* Main program, which outputs N bytes of random data.  */
 int
@@ -39,7 +42,7 @@ main (int argc, char **argv)
   bool valid = parseOptions(argc, argv, &options);
   if (!valid)
     {
-      fprintf (stderr, "%s: usage: %s NBYTES\n", argv[0], argv[0]);
+      fprintf (stderr, "%s: usage: %s [-i INPUT] [-o OUTPUT] NBYTES\n", argv[0], argv[0]);
       return 1;
     }
 
@@ -87,19 +90,50 @@ main (int argc, char **argv)
   int wordsize = sizeof rand64 ();
   int output_errno = 0;
 
-  do
-    {
-      unsigned long long x = rand64 ();
-      int outbytes = nbytes < wordsize ? nbytes : wordsize;
-      if (!writebytes (x, outbytes))
-	{
-	  output_errno = errno;
-	  break;
-	}
-      nbytes -= outbytes;
-    }
-  while (0 < nbytes);
+  if (oOpt == 0) {
+    do
+      {
+	unsigned long long x = rand64 ();
+	int outbytes = nbytes < wordsize ? nbytes : wordsize;
+	if (!writebytes (x, outbytes))
+	  {
+	    output_errno = errno;
+	    break;
+	  }
+	nbytes -= outbytes;
+      }
+    while (0 < nbytes);
+  }
+  else if (oOpt == 1) {
+    int bufferSize = options.output;
+    char *buffer = malloc(bufferSize);
+    int index = 0;
+    
+    while (nbytes > 0) {
+      unsigned long long x = rand64();
 
+      if (nbytes - bufferSize < 0)
+	bufferSize = nbytes;
+
+      while (x > 0 && index < bufferSize) {
+	buffer[index] = x;
+	x >>= CHAR_BIT;
+	index++;
+      }
+
+      if (index == bufferSize) {
+	nbytes -= write(1, buffer, bufferSize);
+	index = 0;
+      }
+    }
+    
+    free(buffer);
+  }
+  else {
+    fprintf(stderr, "No output selected");
+    return 1;
+  }
+  
   if (fclose (stdout) != 0)
     output_errno = errno;
 

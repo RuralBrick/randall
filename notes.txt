@@ -23,3 +23,5 @@ Created rand64-mr files, and added mrand_rand64_init, mrand_rand64,
 and mrand_rand64_fini to them.
 Added private rand48 buffer and "stacked" two long ints to create
 random unsigned long long int values.
+Implemented pseudocode as output option N.
+

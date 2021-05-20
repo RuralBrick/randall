@@ -34,15 +34,17 @@
 int
 main (int argc, char **argv)
 {
+  struct optStruct options;
   long long nbytes;
-  char *input;
-  char *output;
-  bool valid = parseOptions(argc, argv, &nbytes, &input, &output);
+
+  bool valid = parseOptions(argc, argv, &options);
   if (!valid)
     {
       fprintf (stderr, "%s: usage: %s NBYTES\n", argv[0], argv[0]);
       return 1;
     }
+
+  nbytes = options.nbytes;
 
   /* If there's no work to do, don't worry about which library to use.  */
   if (nbytes == 0)

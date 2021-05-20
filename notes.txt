@@ -17,3 +17,5 @@ Got randall to recompile properlly.
 5-19-21
 Converted nbytes parser to options parser.
 Used getopt to additionally parse -i and -o options.
+Converted option parser reference arguments to referenced struct.
+Added parseLongLong, parseInput, and parseOutput functions.

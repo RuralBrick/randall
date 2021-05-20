@@ -33,8 +33,8 @@ TESTER = test-randall.sh
 
 default: randall
 
-randall: randall.c options.c output.c rand64-hw.c rand64-sw.c
-	$(CC) $(CFLAGS) $@.c options.c output.c rand64-hw.c rand64-sw.c -o $@
+randall: randall.c options.c output.c rand64-hw.c rand64-sw.c rand64-mr.c
+	$(CC) $(CFLAGS) $@.c options.c output.c rand64-hw.c rand64-sw.c rand64-mr.c -o $@
 
 check: clean randall $(TESTER)
 	./$(TESTER)

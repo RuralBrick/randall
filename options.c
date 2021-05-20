@@ -15,7 +15,7 @@ parseLongLong(char *str, long long *ll) {
     perror(str);
     return false;
   }
-  return !*endptr && 0 <= *ll;
+  return !*endptr;
 }
 
 int
@@ -32,35 +32,38 @@ parseInput(char *input) {
 int parseOutput(char *output, long long *n) {
   if (strcmp(output, "stdio") == 0)
     return 0;
-  if (parseLongLong(output, n))
+  if (parseLongLong(output, n) && *n > 0)
     return 1;
   return -1;
 }
 
 bool
 parseOptions(int argc, char **argv, struct optStruct *options) {
-  int opt, nNonOptArgs;
-
   options->iOpt = 0;
   options->oOpt = 0;
-  
+
+  int opt;
   while ((opt = getopt(argc, argv, "i:o:")) != -1) {
     switch (opt) {
     case 'i':
-      if ((options->iOpt = parseInput(optarg)) == -1)
+      options->iOpt = parseInput(optarg);
+      if (options->iOpt == -1)
 	return false;
       options->input = optarg;
       break;
     case 'o':
-      if ((options->oOpt = parseOutput(optarg, &options->output)) == -1)
+      options->oOpt = parseOutput(optarg, &options->output);
+      if (options->oOpt == -1)
 	return false;
       break;
     default: return false;
     }
   }
 
-  nNonOptArgs = argc - optind;
-  if (nNonOptArgs == 1 && parseLongLong(argv[optind], &options->nbytes))
+  int nNonOptArgs = argc - optind;
+  if (nNonOptArgs == 1
+      && parseLongLong(argv[optind], &options->nbytes)
+      && options->nbytes >= 0)
     return true;
   return false;
 }

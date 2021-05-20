@@ -9,7 +9,7 @@ Moved writebytes to output files.
 Moved cpuid, rdrand_supported, hardware_rand64_init, hardware_rand64,
 and hardware_rand64_fini to rand64-hw files.
 Moved urandstream, software_rand64_init, software_rand64, and
-software_rand64_fini to rand64_sw files.
+software_rand64_fini to rand64-sw files.
 Extracted code to parse nbytes into parseNBytes in options files.
 Fixed use of headers in modules.
 Got randall to recompile properlly.
@@ -19,3 +19,7 @@ Converted nbytes parser to options parser.
 Used getopt to additionally parse -i and -o options.
 Converted option parser reference arguments to referenced struct.
 Added parseLongLong, parseInput, and parseOutput functions.
+Created rand64-mr files, and added mrand_rand64_init, mrand_rand64,
+and mrand_rand64_fini to them.
+Added private rand48 buffer and "stacked" two long ints to create
+random unsigned long long int values.

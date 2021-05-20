@@ -26,6 +26,7 @@
 #include "output.h"
 #include "rand64-hw.h"
 #include "rand64-sw.h"
+#include "rand64-mr.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <errno.h>
@@ -35,8 +36,6 @@ int
 main (int argc, char **argv)
 {
   struct optStruct options;
-  long long nbytes;
-
   bool valid = parseOptions(argc, argv, &options);
   if (!valid)
     {
@@ -44,8 +43,10 @@ main (int argc, char **argv)
       return 1;
     }
 
-  nbytes = options.nbytes;
-
+  long long nbytes = options.nbytes;
+  int iOpt = options.iOpt;
+  int oOpt = options.oOpt;
+  
   /* If there's no work to do, don't worry about which library to use.  */
   if (nbytes == 0)
     return 0;
@@ -55,18 +56,32 @@ main (int argc, char **argv)
   void (*initialize) (void);
   unsigned long long (*rand64) (void);
   void (*finalize) (void);
-  if (rdrand_supported ())
-    {
+
+  switch (iOpt) {
+  case 0:
+    if (rdrand_supported()) {
       initialize = hardware_rand64_init;
       rand64 = hardware_rand64;
       finalize = hardware_rand64_fini;
+      break;
     }
-  else
-    {
-      initialize = software_rand64_init;
-      rand64 = software_rand64;
-      finalize = software_rand64_fini;
-    }
+    fprintf(stderr, "rdrand not available");
+    return 1;
+  case 1:
+    initialize = mrand_rand64_init;
+    rand64 = mrand_rand64;
+    finalize = mrand_rand64_fini;
+    break;
+  case 2:
+    initialize = software_rand64_init;
+    rand64 = software_rand64;
+    finalize = software_rand64_fini;
+    setFile(options.input);
+    break;
+  default:
+    fprintf(stderr, "No rand generator selected");
+    return 1;
+  }
 
   initialize ();
   int wordsize = sizeof rand64 ();

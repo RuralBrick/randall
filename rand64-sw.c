@@ -2,12 +2,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+char *file;
 FILE *urandstream;
 
 void
+setFile(char *name) {
+  file = name;
+}
+void
 software_rand64_init (void)
 {
-  urandstream = fopen ("/dev/random", "r");
+  if (file)
+    urandstream = fopen(file, "r");
+  else
+    urandstream = fopen("/dev/random", "r");
   if (! urandstream)
     abort ();
 }

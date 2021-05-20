@@ -25,6 +25,7 @@ Added private rand48 buffer and "stacked" two long ints to create
 random unsigned long long int values.
 Implemented pseudocode as output option N.
 Rewrote Makefile to generate object files separately.
+Added i and o tests to randall shell test script.
 
 Timing results:
 
